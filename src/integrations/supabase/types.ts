@@ -132,6 +132,39 @@ export type Database = {
         }
         Relationships: []
       }
+      opportunities: {
+        Row: {
+          category: string
+          description: string
+          details: string
+          id: string
+          level: string
+          published_at: string
+          tags: string[]
+          title: string
+        }
+        Insert: {
+          category: string
+          description: string
+          details: string
+          id?: string
+          level: string
+          published_at?: string
+          tags?: string[]
+          title: string
+        }
+        Update: {
+          category?: string
+          description?: string
+          details?: string
+          id?: string
+          level?: string
+          published_at?: string
+          tags?: string[]
+          title?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
