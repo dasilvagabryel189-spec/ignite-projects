@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/missoes")({
   head: () => ({ meta: [{ title: "Missões — Primeiro Projeto Online" }, { name: "description", content: "Desafios práticos para construir seus projetos." }] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(progressQuery),
   component: MissionsPage,
-  errorComponent: ({ error }) => <p role="alert">{error.message}</p>,
+  errorComponent: ({ error }) => <p role="alert">{(error as Error).message}</p>,
   notFoundComponent: () => <p>Não encontrado.</p>,
 });
 

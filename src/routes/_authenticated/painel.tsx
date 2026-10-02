@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/painel")({
   head: () => ({ meta: [{ title: "Painel — Primeiro Projeto Online" }, { name: "description", content: "Seu progresso, XP e missão do dia." }] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(progressQuery),
   component: Dashboard,
-  errorComponent: ({ error }) => <p role="alert">{error.message}</p>,
+  errorComponent: ({ error }) => <p role="alert">{(error as Error).message}</p>,
   notFoundComponent: () => <p>Não encontrado.</p>,
 });
 
