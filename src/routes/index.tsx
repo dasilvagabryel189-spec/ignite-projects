@@ -137,6 +137,7 @@ function Header() {
           <a className="nav-link" href="#como-funciona">Como funciona</a>
           <a className="nav-link" href="#o-que-voce-recebe">O que você recebe</a>
           <a className="nav-link" href="#faq">FAQ</a>
+          <a className="nav-link" href="/auth">Área do aluno</a>
         </nav>
         <div className="hidden md:block">
           <Button asChild variant="premium" size="lg"><a href={CHECKOUT_URL}>Quero começar <ArrowRight /></a></Button>
