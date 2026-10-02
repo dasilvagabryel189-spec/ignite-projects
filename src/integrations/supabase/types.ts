@@ -14,7 +14,168 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      daily_completions: {
+        Row: {
+          completed_at: string
+          daily_mission_id: string
+          day: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string
+          daily_mission_id: string
+          day?: string
+          user_id?: string
+        }
+        Update: {
+          completed_at?: string
+          daily_mission_id?: string
+          day?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_completions_daily_mission_id_fkey"
+            columns: ["daily_mission_id"]
+            isOneToOne: false
+            referencedRelation: "daily_missions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_missions: {
+        Row: {
+          id: string
+          sort: number
+          title: string
+          xp: number
+        }
+        Insert: {
+          id?: string
+          sort: number
+          title: string
+          xp?: number
+        }
+        Update: {
+          id?: string
+          sort?: number
+          title?: string
+          xp?: number
+        }
+        Relationships: []
+      }
+      mission_steps: {
+        Row: {
+          id: string
+          mission_id: string
+          position: number
+          title: string
+        }
+        Insert: {
+          id?: string
+          mission_id: string
+          position: number
+          title: string
+        }
+        Update: {
+          id?: string
+          mission_id?: string
+          position?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mission_steps_mission_id_fkey"
+            columns: ["mission_id"]
+            isOneToOne: false
+            referencedRelation: "missions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      missions: {
+        Row: {
+          category: string
+          description: string
+          difficulty: string
+          ends_at: string
+          id: string
+          sort: number
+          starts_at: string
+          title: string
+          xp_bonus: number
+          xp_per_step: number
+        }
+        Insert: {
+          category: string
+          description: string
+          difficulty: string
+          ends_at?: string
+          id?: string
+          sort?: number
+          starts_at?: string
+          title: string
+          xp_bonus?: number
+          xp_per_step?: number
+        }
+        Update: {
+          category?: string
+          description?: string
+          difficulty?: string
+          ends_at?: string
+          id?: string
+          sort?: number
+          starts_at?: string
+          title?: string
+          xp_bonus?: number
+          xp_per_step?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      user_step_progress: {
+        Row: {
+          completed_at: string
+          step_id: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string
+          step_id: string
+          user_id?: string
+        }
+        Update: {
+          completed_at?: string
+          step_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_step_progress_step_id_fkey"
+            columns: ["step_id"]
+            isOneToOne: false
+            referencedRelation: "mission_steps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
