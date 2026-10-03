@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedGeradorRouteImport } from './routes/_authenticated/gerador'
 import { Route as AuthenticatedMissoesRouteImport } from './routes/_authenticated/missoes'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
+import { Route as AuthenticatedProjetosRouteImport } from './routes/_authenticated/projetos'
 import { Route as AuthenticatedRadarRouteImport } from './routes/_authenticated/radar'
 
 const IndexRoute = IndexRouteImport.update({
@@ -30,6 +32,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedGeradorRoute = AuthenticatedGeradorRouteImport.update({
+  id: '/gerador',
+  path: '/gerador',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMissoesRoute = AuthenticatedMissoesRouteImport.update({
   id: '/missoes',
   path: '/missoes',
@@ -38,6 +45,11 @@ const AuthenticatedMissoesRoute = AuthenticatedMissoesRouteImport.update({
 const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProjetosRoute = AuthenticatedProjetosRouteImport.update({
+  id: '/projetos',
+  path: '/projetos',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedRadarRoute = AuthenticatedRadarRouteImport.update({
@@ -49,15 +61,19 @@ const AuthenticatedRadarRoute = AuthenticatedRadarRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/gerador': typeof AuthenticatedGeradorRoute
   '/missoes': typeof AuthenticatedMissoesRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/projetos': typeof AuthenticatedProjetosRoute
   '/radar': typeof AuthenticatedRadarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/gerador': typeof AuthenticatedGeradorRoute
   '/missoes': typeof AuthenticatedMissoesRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/projetos': typeof AuthenticatedProjetosRoute
   '/radar': typeof AuthenticatedRadarRoute
 }
 export interface FileRoutesById {
@@ -65,22 +81,28 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/gerador': typeof AuthenticatedGeradorRoute
   '/_authenticated/missoes': typeof AuthenticatedMissoesRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
+  '/_authenticated/projetos': typeof AuthenticatedProjetosRoute
   '/_authenticated/radar': typeof AuthenticatedRadarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/missoes' | '/painel' | '/radar'
+  fullPaths:
+    '/' | '/auth' | '/gerador' | '/missoes' | '/painel' | '/projetos' | '/radar'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/missoes' | '/painel' | '/radar'
+  to:
+    '/' | '/auth' | '/gerador' | '/missoes' | '/painel' | '/projetos' | '/radar'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/gerador'
     | '/_authenticated/missoes'
     | '/_authenticated/painel'
+    | '/_authenticated/projetos'
     | '/_authenticated/radar'
   fileRoutesById: FileRoutesById
 }
@@ -113,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/gerador': {
+      id: '/_authenticated/gerador'
+      path: '/gerador'
+      fullPath: '/gerador'
+      preLoaderRoute: typeof AuthenticatedGeradorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/missoes': {
       id: '/_authenticated/missoes'
       path: '/missoes'
@@ -127,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/projetos': {
+      id: '/_authenticated/projetos'
+      path: '/projetos'
+      fullPath: '/projetos'
+      preLoaderRoute: typeof AuthenticatedProjetosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/radar': {
       id: '/_authenticated/radar'
       path: '/radar'
@@ -138,14 +174,18 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedGeradorRoute: typeof AuthenticatedGeradorRoute
   AuthenticatedMissoesRoute: typeof AuthenticatedMissoesRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
+  AuthenticatedProjetosRoute: typeof AuthenticatedProjetosRoute
   AuthenticatedRadarRoute: typeof AuthenticatedRadarRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedGeradorRoute: AuthenticatedGeradorRoute,
   AuthenticatedMissoesRoute: AuthenticatedMissoesRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
+  AuthenticatedProjetosRoute: AuthenticatedProjetosRoute,
   AuthenticatedRadarRoute: AuthenticatedRadarRoute,
 }
 

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, redirect, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { LayoutDashboard, LogOut, Radar, Target } from "lucide-react";
+import { FolderKanban, LayoutDashboard, LogOut, Radar, Target, Wand2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -33,6 +33,8 @@ function AppShell() {
             <Link to="/painel" className={link} activeProps={active}><LayoutDashboard className="size-4" /><span className="hidden sm:inline">Painel</span></Link>
             <Link to="/missoes" className={link} activeProps={active}><Target className="size-4" /><span className="hidden sm:inline">Missões</span></Link>
             <Link to="/radar" className={link} activeProps={active}><Radar className="size-4" /><span className="hidden sm:inline">Radar</span></Link>
+            <Link to="/projetos" className={link} activeProps={active}><FolderKanban className="size-4" /><span className="hidden sm:inline">Projetos</span></Link>
+            <Link to="/gerador" className={link} activeProps={active}><Wand2 className="size-4" /><span className="hidden sm:inline">Gerador</span></Link>
             <button onClick={signOut} className={link} aria-label="Sair"><LogOut className="size-4" /></button>
           </nav>
         </div>
