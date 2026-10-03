@@ -183,6 +183,119 @@ export type Database = {
         }
         Relationships: []
       }
+      project_ideas: {
+        Row: {
+          audience: string
+          created_at: string
+          description: string
+          difficulty: string
+          first_steps: string
+          id: string
+          monetization: string
+          name: string
+          problem: string
+          solution: string
+          user_id: string
+        }
+        Insert: {
+          audience?: string
+          created_at?: string
+          description?: string
+          difficulty?: string
+          first_steps?: string
+          id?: string
+          monetization?: string
+          name: string
+          problem?: string
+          solution?: string
+          user_id?: string
+        }
+        Update: {
+          audience?: string
+          created_at?: string
+          description?: string
+          difficulty?: string
+          first_steps?: string
+          id?: string
+          monetization?: string
+          name?: string
+          problem?: string
+          solution?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      project_tasks: {
+        Row: {
+          done: boolean
+          done_at: string | null
+          id: string
+          position: number
+          project_id: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          done?: boolean
+          done_at?: string | null
+          id?: string
+          position?: number
+          project_id: string
+          title: string
+          user_id?: string
+        }
+        Update: {
+          done?: boolean
+          done_at?: string | null
+          id?: string
+          position?: number
+          project_id?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          name: string
+          notes: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          name: string
+          notes?: string
+          status?: string
+          user_id?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+          notes?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_step_progress: {
         Row: {
           completed_at: string
@@ -208,6 +321,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      xp_events: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          reason: string
+          user_id?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: []
       }
     }
     Views: {
