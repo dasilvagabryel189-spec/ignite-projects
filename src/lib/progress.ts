@@ -12,13 +12,14 @@ export const todayISO = () => new Date().toLocaleDateString("en-CA");
 export const progressQuery = queryOptions({
   queryKey: ["progress"],
   queryFn: async () => {
-    const [m, s, done, daily, dailyDone, prof] = await Promise.all([
+    const [m, s, done, daily, dailyDone, prof, xpEv] = await Promise.all([
       supabase.from("missions").select("*").order("sort"),
       supabase.from("mission_steps").select("id, mission_id, position, title").order("position"),
       supabase.from("user_step_progress").select("step_id"),
       supabase.from("daily_missions").select("*").order("sort"),
       supabase.from("daily_completions").select("day, daily_mission_id, completed_at").order("day", { ascending: false }),
       supabase.from("profiles").select("display_name").maybeSingle(),
+      supabase.from("xp_events").select("amount"),
     ]);
     const err = m.error || s.error || done.error || daily.error || dailyDone.error;
     if (err) throw err;
@@ -38,6 +39,7 @@ export const progressQuery = queryOptions({
     }
     const dailyXp = Object.fromEntries(dailyList.map((d) => [d.id, d.xp]));
     for (const h of history) xp += dailyXp[h.daily_mission_id] ?? 0;
+    for (const e of xpEv.data ?? []) xp += e.amount;
     return { missions, doneSet, today, history, dailyList, xp, name: prof.data?.display_name ?? "" };
   },
 });
