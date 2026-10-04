@@ -15,6 +15,13 @@
       "when": 1790956234683,
       "tag": "0001_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791137168870,
+      "tag": "0002_subscriptions_kiwify",
+      "breakpoints": true
     }
   ]
 }

@@ -296,6 +296,93 @@ export type Database = {
         }
         Relationships: []
       }
+      subscription_events: {
+        Row: {
+          created_at: string
+          email: string | null
+          event_type: string | null
+          id: string
+          next_renewal: string | null
+          order_id: string | null
+          payload: Json
+          plan: string | null
+          product_id: string | null
+          started_at: string | null
+          status: string | null
+          subscription_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          event_type?: string | null
+          id?: string
+          next_renewal?: string | null
+          order_id?: string | null
+          payload?: Json
+          plan?: string | null
+          product_id?: string | null
+          started_at?: string | null
+          status?: string | null
+          subscription_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          event_type?: string | null
+          id?: string
+          next_renewal?: string | null
+          order_id?: string | null
+          payload?: Json
+          plan?: string | null
+          product_id?: string | null
+          started_at?: string | null
+          status?: string | null
+          subscription_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          base_active: boolean
+          base_next_renewal: string | null
+          base_status: string | null
+          base_subscription_id: string | null
+          pro_active: boolean
+          pro_next_renewal: string | null
+          pro_status: string | null
+          pro_subscription_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          base_active?: boolean
+          base_next_renewal?: string | null
+          base_status?: string | null
+          base_subscription_id?: string | null
+          pro_active?: boolean
+          pro_next_renewal?: string | null
+          pro_status?: string | null
+          pro_subscription_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          base_active?: boolean
+          base_next_renewal?: string | null
+          base_status?: string | null
+          base_subscription_id?: string | null
+          pro_active?: boolean
+          pro_next_renewal?: string | null
+          pro_status?: string | null
+          pro_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_step_progress: {
         Row: {
           completed_at: string
@@ -351,7 +438,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_base: { Args: { _user_id: string }; Returns: boolean }
+      has_pro: { Args: { _user_id: string }; Returns: boolean }
+      user_id_by_email: { Args: { _email: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
