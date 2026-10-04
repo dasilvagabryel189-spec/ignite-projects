@@ -12,11 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 import { Route as AuthenticatedGeradorRouteImport } from './routes/_authenticated/gerador'
 import { Route as AuthenticatedMissoesRouteImport } from './routes/_authenticated/missoes'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
+import { Route as AuthenticatedPlanosRouteImport } from './routes/_authenticated/planos'
 import { Route as AuthenticatedProjetosRouteImport } from './routes/_authenticated/projetos'
 import { Route as AuthenticatedRadarRouteImport } from './routes/_authenticated/radar'
+import { Route as ApiPublicKiwifyWebhookRouteImport } from './routes/api/public/kiwify/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -31,6 +34,11 @@ const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedContaRoute = AuthenticatedContaRouteImport.update({
+  id: '/conta',
+  path: '/conta',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedGeradorRoute = AuthenticatedGeradorRouteImport.update({
   id: '/gerador',
@@ -47,6 +55,11 @@ const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPlanosRoute = AuthenticatedPlanosRouteImport.update({
+  id: '/planos',
+  path: '/planos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProjetosRoute = AuthenticatedProjetosRouteImport.update({
   id: '/projetos',
   path: '/projetos',
@@ -57,59 +70,95 @@ const AuthenticatedRadarRoute = AuthenticatedRadarRouteImport.update({
   path: '/radar',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicKiwifyWebhookRoute = ApiPublicKiwifyWebhookRouteImport.update({
+  id: '/api/public/kiwify/webhook',
+  path: '/api/public/kiwify/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/conta': typeof AuthenticatedContaRoute
   '/gerador': typeof AuthenticatedGeradorRoute
   '/missoes': typeof AuthenticatedMissoesRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/planos': typeof AuthenticatedPlanosRoute
   '/projetos': typeof AuthenticatedProjetosRoute
   '/radar': typeof AuthenticatedRadarRoute
+  '/api/public/kiwify/webhook': typeof ApiPublicKiwifyWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/conta': typeof AuthenticatedContaRoute
   '/gerador': typeof AuthenticatedGeradorRoute
   '/missoes': typeof AuthenticatedMissoesRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/planos': typeof AuthenticatedPlanosRoute
   '/projetos': typeof AuthenticatedProjetosRoute
   '/radar': typeof AuthenticatedRadarRoute
+  '/api/public/kiwify/webhook': typeof ApiPublicKiwifyWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/_authenticated/gerador': typeof AuthenticatedGeradorRoute
   '/_authenticated/missoes': typeof AuthenticatedMissoesRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
+  '/_authenticated/planos': typeof AuthenticatedPlanosRoute
   '/_authenticated/projetos': typeof AuthenticatedProjetosRoute
   '/_authenticated/radar': typeof AuthenticatedRadarRoute
+  '/api/public/kiwify/webhook': typeof ApiPublicKiwifyWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/gerador' | '/missoes' | '/painel' | '/projetos' | '/radar'
+    | '/'
+    | '/auth'
+    | '/conta'
+    | '/gerador'
+    | '/missoes'
+    | '/painel'
+    | '/planos'
+    | '/projetos'
+    | '/radar'
+    | '/api/public/kiwify/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/auth' | '/gerador' | '/missoes' | '/painel' | '/projetos' | '/radar'
+    | '/'
+    | '/auth'
+    | '/conta'
+    | '/gerador'
+    | '/missoes'
+    | '/painel'
+    | '/planos'
+    | '/projetos'
+    | '/radar'
+    | '/api/public/kiwify/webhook'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/conta'
     | '/_authenticated/gerador'
     | '/_authenticated/missoes'
     | '/_authenticated/painel'
+    | '/_authenticated/planos'
     | '/_authenticated/projetos'
     | '/_authenticated/radar'
+    | '/api/public/kiwify/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiPublicKiwifyWebhookRoute: typeof ApiPublicKiwifyWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -135,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/conta': {
+      id: '/_authenticated/conta'
+      path: '/conta'
+      fullPath: '/conta'
+      preLoaderRoute: typeof AuthenticatedContaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/gerador': {
       id: '/_authenticated/gerador'
       path: '/gerador'
@@ -156,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/planos': {
+      id: '/_authenticated/planos'
+      path: '/planos'
+      fullPath: '/planos'
+      preLoaderRoute: typeof AuthenticatedPlanosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/projetos': {
       id: '/_authenticated/projetos'
       path: '/projetos'
@@ -170,21 +233,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRadarRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/kiwify/webhook': {
+      id: '/api/public/kiwify/webhook'
+      path: '/api/public/kiwify/webhook'
+      fullPath: '/api/public/kiwify/webhook'
+      preLoaderRoute: typeof ApiPublicKiwifyWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedContaRoute: typeof AuthenticatedContaRoute
   AuthenticatedGeradorRoute: typeof AuthenticatedGeradorRoute
   AuthenticatedMissoesRoute: typeof AuthenticatedMissoesRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
+  AuthenticatedPlanosRoute: typeof AuthenticatedPlanosRoute
   AuthenticatedProjetosRoute: typeof AuthenticatedProjetosRoute
   AuthenticatedRadarRoute: typeof AuthenticatedRadarRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedContaRoute: AuthenticatedContaRoute,
   AuthenticatedGeradorRoute: AuthenticatedGeradorRoute,
   AuthenticatedMissoesRoute: AuthenticatedMissoesRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
+  AuthenticatedPlanosRoute: AuthenticatedPlanosRoute,
   AuthenticatedProjetosRoute: AuthenticatedProjetosRoute,
   AuthenticatedRadarRoute: AuthenticatedRadarRoute,
 }
@@ -196,6 +270,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiPublicKiwifyWebhookRoute: ApiPublicKiwifyWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
