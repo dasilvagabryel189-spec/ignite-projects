@@ -115,6 +115,7 @@ function ProjectCard({ project, onChange }: { project: Project & { tasks: { id: 
 
   const advance = useMutation({
     mutationFn: async () => {
+      if (!next) return;
       const { error } = await supabase.from("projects").update({ status: next }).eq("id", project.id);
       if (error) throw error;
     },
