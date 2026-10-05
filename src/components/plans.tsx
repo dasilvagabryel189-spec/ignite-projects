@@ -5,11 +5,11 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { CHECKOUT_URLS, PLANS, subscriptionQuery } from "@/lib/plans";
 
-function goCheckout(plan: "base" | "pro") {
+function goCheckout(plan: "base" | "pro"): void {
   const url = CHECKOUT_URLS[plan];
   if (!url) {
     toast("Checkout ainda não configurado.");
-    return;
+    return undefined;
   }
   window.open(url, "_blank", "noopener");
 }
