@@ -7,11 +7,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { awardXp, DEFAULT_CHECKLIST, ideasQuery } from "@/lib/projects";
+import { ProGate } from "@/components/plans";
+import { subscriptionQuery } from "@/lib/plans";
 
 export const Route = createFileRoute("/_authenticated/gerador")({
   head: () => ({ meta: [{ title: "Gerador de Projetos — Primeiro Projeto Online" }, { name: "description", content: "Responda 4 perguntas e receba ideias de projeto." }] }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(ideasQuery),
-  component: Gerador,
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(subscriptionQuery());
+    return context.queryClient.ensureQueryData(ideasQuery);
+  },
+  component: () => <ProGate feature="Gerador de Projetos"><Gerador /></ProGate>,
   errorComponent: ({ error }) => <p role="alert">{(error as Error).message}</p>,
   notFoundComponent: () => <p>Não encontrado.</p>,
 });
