@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CreditCard, FolderKanban, LayoutDashboard, LogOut, Radar, Target, UserRound, Wand2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { subscriptionQuery } from "@/lib/plans";
-import { BaseRequired } from "@/components/plans";
+import { BaseRequired, ProBadge } from "@/components/plans";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -41,7 +41,7 @@ function AppShell() {
             <Link to="/missoes" className={link} activeProps={active}><Target className="size-4" /><span className="hidden md:inline">Missões</span></Link>
             <Link to="/radar" className={link} activeProps={active}><Radar className="size-4" /><span className="hidden md:inline">Radar</span></Link>
             <Link to="/projetos" className={link} activeProps={active}><FolderKanban className="size-4" /><span className="hidden md:inline">Projetos</span></Link>
-            <Link to="/gerador" className={link} activeProps={active}><Wand2 className="size-4" /><span className="hidden md:inline">Gerador</span></Link>
+            <Link to="/gerador" className={link} activeProps={active}><Wand2 className="size-4" /><span className="hidden md:inline">Gerador</span>{sub.data && !sub.data.hasPro && <ProBadge />}</Link>
             <Link to="/planos" className={link} activeProps={active} aria-label="Planos"><CreditCard className="size-4" /></Link>
             <Link to="/conta" className={link} activeProps={active} aria-label="Minha conta"><UserRound className="size-4" /></Link>
             <button onClick={signOut} className={link} aria-label="Sair"><LogOut className="size-4" /></button>

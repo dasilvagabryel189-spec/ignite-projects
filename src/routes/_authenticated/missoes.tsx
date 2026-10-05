@@ -7,11 +7,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { progressQuery, type Mission } from "@/lib/progress";
-import { ProGate } from "@/components/plans";
+import { ProBadge, ProLockCard, PlanBanner } from "@/components/plans";
+import { subscriptionQuery } from "@/lib/plans";
 
 export const Route = createFileRoute("/_authenticated/missoes")({
   head: () => ({ meta: [{ title: "Missões — Primeiro Projeto Online" }, { name: "description", content: "Desafios práticos para construir seus projetos." }] }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(progressQuery),
+  loader: async ({ context }) => { await context.queryClient.ensureQueryData(subscriptionQuery()); return context.queryClient.ensureQueryData(progressQuery); },
   component: MissionsPage,
   errorComponent: ({ error }) => <p role="alert">{(error as Error).message}</p>,
   notFoundComponent: () => <p>Não encontrado.</p>,
@@ -19,8 +20,9 @@ export const Route = createFileRoute("/_authenticated/missoes")({
 
 function MissionsPage() {
   const { data } = useSuspenseQuery(progressQuery);
+  const { data: { hasPro } } = useSuspenseQuery(subscriptionQuery());
   const [celebrate, setCelebrate] = useState<string | null>(null);
-  const isDone = (m: Mission) => m.steps.length > 0 && m.steps.every((s) => data.doneSet.has(s.id));
+  const isDone = (m: Mission) => m.steps.length > 0 && (!m.is_pro || hasPro) && m.steps.every((s) => data.doneSet.has(s.id));
   const groups: [string, string, Mission[]][] = [
     ["semana", "Da semana", data.missions.filter((m) => m.category === "semana" && !isDone(m))],
     ["rapida", "Rápidas", data.missions.filter((m) => m.category === "rapida" && !isDone(m))],
@@ -33,18 +35,19 @@ function MissionsPage() {
         <h1 className="font-display text-3xl font-semibold">Missões</h1>
         <p className="text-muted-foreground">Desafios práticos para tirar ideias do papel. Cada etapa vale XP.</p>
       </div>
+      <PlanBanner />
       <Tabs defaultValue="semana">
         <TabsList className="flex-wrap">{groups.map(([k, l, ms]) => <TabsTrigger key={k} value={k}>{l} ({ms.length})</TabsTrigger>)}</TabsList>
         {groups.map(([k, , ms]) => {
           const grid = (
             <div className="grid gap-4 md:grid-cols-2">
               {ms.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma missão aqui por enquanto.</p>}
-              {ms.map((m) => <MissionCard key={m.id} m={m} doneSet={data.doneSet} onComplete={() => setCelebrate(m.title)} />)}
+              {ms.map((m) => m.is_pro && !hasPro ? <ProLockCard key={m.id} title={m.title} subtitle={m.difficulty} /> : <MissionCard key={m.id} m={m} doneSet={data.doneSet} onComplete={() => setCelebrate(m.title)} />)}
             </div>
           );
           return (
             <TabsContent key={k} value={k} className="mt-4">
-              {k === "avancada" ? <ProGate feature="Missões avançadas">{grid}</ProGate> : grid}
+              {grid}
             </TabsContent>
           );
         })}
@@ -88,6 +91,7 @@ function MissionCard({ m, doneSet, onComplete }: { m: Mission; doneSet: Set<stri
     <div className="rounded-2xl border border-border bg-card p-6">
       <div className="flex flex-wrap gap-2 text-xs">
         <span className="rounded-full bg-surface px-2.5 py-1">{m.difficulty}</span>
+        {m.is_pro && <ProBadge />}
         <span className="rounded-full bg-primary/15 px-2.5 py-1 text-primary-bright">{m.steps.length * m.xp_per_step + m.xp_bonus} XP</span>
         <span className="rounded-full bg-surface px-2.5 py-1 text-muted-foreground">{fmt(m.starts_at)} – {fmt(m.ends_at)}</span>
       </div>

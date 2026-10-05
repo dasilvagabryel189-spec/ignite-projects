@@ -1,3 +1,4 @@
+import { PlanBanner } from "@/components/plans";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { CheckCircle2, Flame, Sparkles, Target } from "lucide-react";
@@ -37,6 +38,7 @@ function Dashboard() {
         <p className="text-sm text-muted-foreground">Bem-vindo de volta{data.name ? `, ${data.name}` : ""}</p>
         <h1 className="font-display text-3xl font-semibold">Sua central de projetos</h1>
       </div>
+      <PlanBanner />
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded-2xl border border-border bg-card p-6">
