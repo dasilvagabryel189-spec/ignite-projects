@@ -7,7 +7,10 @@ import { CHECKOUT_URLS, PLANS, subscriptionQuery } from "@/lib/plans";
 
 function goCheckout(plan: "base" | "pro") {
   const url = CHECKOUT_URLS[plan];
-  if (!url) return toast("Checkout ainda não configurado.");
+  if (!url) {
+    toast("Checkout ainda não configurado.");
+    return;
+  }
   window.open(url, "_blank", "noopener");
 }
 
