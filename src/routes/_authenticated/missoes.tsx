@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { progressQuery, type Mission } from "@/lib/progress";
+import { ProGate } from "@/components/plans";
 
 export const Route = createFileRoute("/_authenticated/missoes")({
   head: () => ({ meta: [{ title: "Missões — Primeiro Projeto Online" }, { name: "description", content: "Desafios práticos para construir seus projetos." }] }),
@@ -34,12 +35,19 @@ function MissionsPage() {
       </div>
       <Tabs defaultValue="semana">
         <TabsList className="flex-wrap">{groups.map(([k, l, ms]) => <TabsTrigger key={k} value={k}>{l} ({ms.length})</TabsTrigger>)}</TabsList>
-        {groups.map(([k, , ms]) => (
-          <TabsContent key={k} value={k} className="mt-4 grid gap-4 md:grid-cols-2">
-            {ms.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma missão aqui por enquanto.</p>}
-            {ms.map((m) => <MissionCard key={m.id} m={m} doneSet={data.doneSet} onComplete={() => setCelebrate(m.title)} />)}
-          </TabsContent>
-        ))}
+        {groups.map(([k, , ms]) => {
+          const grid = (
+            <div className="grid gap-4 md:grid-cols-2">
+              {ms.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma missão aqui por enquanto.</p>}
+              {ms.map((m) => <MissionCard key={m.id} m={m} doneSet={data.doneSet} onComplete={() => setCelebrate(m.title)} />)}
+            </div>
+          );
+          return (
+            <TabsContent key={k} value={k} className="mt-4">
+              {k === "avancada" ? <ProGate feature="Missões avançadas">{grid}</ProGate> : grid}
+            </TabsContent>
+          );
+        })}
       </Tabs>
       {celebrate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm animate-in fade-in" onClick={() => setCelebrate(null)}>

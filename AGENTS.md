@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep the sales page as a single anchored landing route because its conversion flow depends on uninterrupted scrolling.
+- Subscription status is written only by the Kiwify webhook (service role); PRO+ features are enforced in RLS via has_pro(), never only in the UI.

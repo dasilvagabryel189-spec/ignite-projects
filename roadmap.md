@@ -7,5 +7,5 @@
 - [ ] Etapa 5: Gamificação completa — níveis com nomes (Explorador→Fundador), Streak com calendário, Conquistas (badges)
 - [ ] Etapa 6: Dashboard completo (streak, projeto atual, radar, novos conteúdos, "Continuar projeto")
 - [ ] Etapa 7: Área administrativa (CRUD de missões, oportunidades, prompts, conteúdos; níveis FREE/PRO/PRO+)
-- [ ] Etapa 8: Planos de assinatura (FREE/PRO/PRO+) — sem inventar preços nem integração de pagamento
+- [x] Etapa 8: Planos Base (R$19,90) + PRO+ (R$7,90) com Kiwify — aguardando IDs/segredo da Kiwify
 - [ ] Etapa 9: Central de notificações no app
