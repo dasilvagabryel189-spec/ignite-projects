@@ -100,6 +100,7 @@ export type Database = {
           difficulty: string
           ends_at: string
           id: string
+          is_pro: boolean
           sort: number
           starts_at: string
           title: string
@@ -112,6 +113,7 @@ export type Database = {
           difficulty: string
           ends_at?: string
           id?: string
+          is_pro?: boolean
           sort?: number
           starts_at?: string
           title: string
@@ -124,6 +126,7 @@ export type Database = {
           difficulty?: string
           ends_at?: string
           id?: string
+          is_pro?: boolean
           sort?: number
           starts_at?: string
           title?: string
@@ -138,6 +141,7 @@ export type Database = {
           description: string
           details: string
           id: string
+          is_pro: boolean
           level: string
           published_at: string
           tags: string[]
@@ -148,6 +152,7 @@ export type Database = {
           description: string
           details: string
           id?: string
+          is_pro?: boolean
           level: string
           published_at?: string
           tags?: string[]
@@ -158,6 +163,7 @@ export type Database = {
           description?: string
           details?: string
           id?: string
+          is_pro?: boolean
           level?: string
           published_at?: string
           tags?: string[]
@@ -440,6 +446,16 @@ export type Database = {
     Functions: {
       has_base: { Args: { _user_id: string }; Returns: boolean }
       has_pro: { Args: { _user_id: string }; Returns: boolean }
+      pro_opportunity_teasers: {
+        Args: never
+        Returns: {
+          category: string
+          id: string
+          level: string
+          published_at: string
+          title: string
+        }[]
+      }
       user_id_by_email: { Args: { _email: string }; Returns: string }
     }
     Enums: {
