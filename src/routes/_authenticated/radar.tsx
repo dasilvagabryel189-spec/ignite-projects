@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Radar as RadarIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { ProBadge, ProLockCard } from "@/components/plans";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const CATEGORIES = ["Tendências", "Inteligência Artificial", "Produtos digitais", "Jogos", "Conteúdo", "Marketing", "Ferramentas", "Ideias de negócio"];
@@ -14,7 +15,8 @@ const oppsQuery = queryOptions({
   queryFn: async () => {
     const { data, error } = await supabase.from("opportunities").select("*").order("published_at", { ascending: false });
     if (error) throw error;
-    return data;
+    const { data: locked } = await supabase.rpc("pro_opportunity_teasers");
+    return { data, locked: locked ?? [] };
   },
 });
 
@@ -34,11 +36,12 @@ const levelStyle: Record<string, string> = {
 };
 
 function RadarPage() {
-  const { data } = useSuspenseQuery(oppsQuery);
+  const { data: { data, locked } } = useSuspenseQuery(oppsQuery);
   const { categoria } = Route.useSearch();
   const navigate = useNavigate({ from: "/radar" });
   const [open, setOpen] = useState<(typeof data)[number] | null>(null);
   const list = categoria ? data.filter((o) => o.category === categoria) : data;
+  const lockedList = categoria ? locked.filter((o) => o.category === categoria) : locked;
   const chip = (active: boolean) => `rounded-full border px-3 py-1.5 text-sm transition-colors ${active ? "border-primary bg-primary/15 text-foreground" : "border-border text-muted-foreground hover:text-foreground"}`;
 
   return (
@@ -52,11 +55,11 @@ function RadarPage() {
         {CATEGORIES.map((c) => <button key={c} className={chip(categoria === c)} onClick={() => navigate({ search: { categoria: c } })}>{c}</button>)}
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {list.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma oportunidade nesta categoria ainda.</p>}
+        {list.length + lockedList.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma oportunidade nesta categoria ainda.</p>}
         {list.map((o) => (
           <div key={o.id} className="flex flex-col rounded-2xl border border-border bg-card p-6">
             <div className="flex items-center justify-between gap-2 text-xs">
-              <span className="text-muted-foreground">{o.category}</span>
+              <span className="flex items-center gap-2 text-muted-foreground">{o.category}{o.is_pro && <ProBadge />}</span>
               <span className={`rounded-full px-2.5 py-1 font-medium ${levelStyle[o.level]}`}>{o.level}</span>
             </div>
             <h3 className="mt-3 font-display text-lg font-semibold">{o.title}</h3>
@@ -68,6 +71,7 @@ function RadarPage() {
             </div>
           </div>
         ))}
+        {lockedList.map((o) => <ProLockCard key={o.id} title={o.title} subtitle={o.category} />)}
       </div>
       <Dialog open={!!open} onOpenChange={(v) => !v && setOpen(null)}>
         <DialogContent>

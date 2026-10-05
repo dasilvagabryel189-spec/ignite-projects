@@ -63,15 +63,47 @@ export function BaseRequired() {
   );
 }
 
+export function ProCta({ label = "Conhecer PRO+", className }: { label?: string; className?: string }) {
+  if (CHECKOUT_URLS.pro) return <Button variant="premium" className={className} onClick={() => goCheckout("pro")}>{label}</Button>;
+  return <Button asChild variant="premium" className={className}><Link to="/planos">{label}</Link></Button>;
+}
+
+export function ProBadge() {
+  return <span className="rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-primary-bright">PRO+</span>;
+}
+
+export function ProLockCard({ title, subtitle }: { title: string; subtitle?: string }) {
+  return (
+    <div className="flex flex-col rounded-2xl border border-dashed border-primary/40 bg-card/60 p-6">
+      <div className="flex items-center justify-between text-xs"><span className="text-muted-foreground">{subtitle}</span><ProBadge /></div>
+      <h3 className="mt-3 font-display text-lg font-semibold">{title}</h3>
+      <p className="mt-2 flex flex-1 items-start gap-2 text-sm text-muted-foreground"><Lock className="mt-0.5 size-4 shrink-0" />Este recurso faz parte do PRO+.</p>
+      <ProCta className="mt-4 self-start" />
+    </div>
+  );
+}
+
+export function PlanBanner() {
+  const { data: s } = useSuspenseQuery(subscriptionQuery());
+  if (s.hasPro) return <div className="glass-card flex items-center gap-2 rounded-xl px-4 py-3 text-sm"><Sparkles className="size-4 text-primary-bright" />PRO+ ativo</div>;
+  return (
+    <div className="glass-card flex flex-wrap items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm">
+      <p><strong>Você está no plano Base.</strong> <span className="text-muted-foreground">Desbloqueie o PRO+ para acessar todas as ferramentas, ideias e recursos.</span></p>
+      <ProCta label="Desbloquear PRO+" />
+    </div>
+  );
+}
+
 export function ProGate({ children, feature }: { children: React.ReactNode; feature: string }) {
   const { data: s } = useSuspenseQuery(subscriptionQuery());
   if (s.hasPro) return <>{children}</>;
   return (
     <div className="glass-card mx-auto max-w-xl rounded-2xl p-8 text-center">
       <Lock className="mx-auto size-8 text-primary-bright" />
-      <h2 className="mt-3 font-display text-2xl font-semibold">{feature} é PRO+</h2>
-      <p className="mt-2 text-muted-foreground">Adicione o PRO+ ao seu plano Base por + {PLANS.pro.price}/mês.</p>
-      <Button asChild variant="premium" className="mt-6"><Link to="/planos">Ver PRO+</Link></Button>
+      <p className="eyebrow mt-3">Ferramenta PRO+</p>
+      <h2 className="mt-2 font-display text-2xl font-semibold">{feature}</h2>
+      <p className="mt-2 text-muted-foreground">Desbloqueie o PRO+ para acessar esta ferramenta.</p>
+      <ProCta label="Desbloquear PRO+" className="mt-6" />
     </div>
   );
 }
